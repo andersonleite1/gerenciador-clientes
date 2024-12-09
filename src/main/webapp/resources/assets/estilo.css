@@ -1,0 +1,49 @@
+@charset "utf-8";
+
+body {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-weight: normal
+}
+
+#conteudo-header {
+	padding-top: 15px;
+	margin-bottom: 20px;
+	height: 90px;
+	background-color: #6EC1E4;
+	
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.texto-cor-logo {
+	padding-left: 0.5rem;
+	color: #000;
+	font-size: 2rem;
+}
+
+#descricao {
+	padding-top: 10px;
+	padding-left: 8px;
+	margin-bottom: 10px
+}
+
+.texto-descricao {
+	font-size: 1.5rem;
+	font-weight: 500;
+}
+
+body .ui-button {
+	margin-left: 5px;
+}
+
+#conteudo {
+	padding: 0px 8px;
+}
+
+.ui-paginator-rpp-options.ui-widget.ui-state-default.ui-corner-left {
+	background: #B8BCC1;
+    color: #525A60;
+}

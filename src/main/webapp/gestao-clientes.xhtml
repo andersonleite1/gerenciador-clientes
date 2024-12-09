@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core" 
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                template="WEB-INF/template/Layout.xhtml">
+
+    <ui:define name="titulo">Clientes Cadastrados:</ui:define>
+
+    <ui:define name="conteudo">
+        <f:metadata>
+            <f:viewAction action="#{clienteBean.getTodosClientes}" />
+        </f:metadata>
+
+        <h:form id="frm">
+            <p:messages id="messages" />
+
+            <p:toolbar id="toolbar">
+                <f:facet name="left">
+                    <p:inputText id="termoPesquisa" placeholder="Digite aqui o nome para pesquisa..." size="40"
+                                 value="#{clienteBean.termoPesquisa}" />
+
+                    <p:commandButton value="Pesquisar" icon="fas fa-search" class="toolbar-button"
+                                     actionListener="#{clienteBean.pesquisar}" update="clientesDataTable messages"
+                                     process="@this termoPesquisa" />
+
+                    <span class="ui-separator">
+                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                    </span>
+
+                    <p:commandButton value="Novo" icon="fas fa-plus" class="toolbar-button ui-button-success"
+                                     actionListener="#{clienteBean.prepararNovoCliente}" oncomplete="PF('clienteDialogWidgetVar').show()"
+                                     update="clienteDialog" process="@this">
+                        <p:resetInput target="clienteDialog" />
+                    </p:commandButton>
+
+                    <span class="ui-separator">
+                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                    </span>
+
+                    <p:commandButton title="Editar" icon="fas fa-edit" class="toolbar-button ui-button-warning"
+                                     disabled="#{not clienteBean.isClienteSelecionado}" actionListener="#{clienteBean.prepararEdicao}"
+                                     oncomplete="PF('clienteDialogWidgetVar').show()" update="clienteDialog" process="@this">
+                        <p:resetInput target="clienteDialog" />
+                    </p:commandButton>
+
+                    <p:commandButton title="Excluir" icon="fas fa-trash" class="toolbar-button ui-button-danger"
+                                     disabled="#{not clienteBean.isClienteSelecionado}" actionListener="#{clienteBean.excluir}"
+                                     update="messages clientesDataTable toolbar" process="@this">
+                        <p:confirm icon="ui-icon-alert" header="Confirmação de exclusão" message="Posso excluir o cliente?" />
+                    </p:commandButton>
+
+                    <span class="ui-separator">
+                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                    </span>
+
+					<p:commandButton title="Exportar para o Excel" icon="fas fa-file-excel"
+											class="toolbar-button ui-button-secondary" actionListener="#{clienteBean.exportarParaExcel}"
+											ajax="false" />
+
+                    <p:commandButton value="Ajuda" type="button" icon="fas fa-info-circle" class="ui-button-help"
+                                     onclick="PF('ajuda').show()" />
+                </f:facet>
+            </p:toolbar>
+
+            <p:spacer height="20px" />
+
+            <p:dataTable id="clientesDataTable" value="#{clienteBean.listaClientes}" var="cliente"
+                         emptyMessage="Nenhuma informação a ser exibida" paginator="true" rows="10" paginatorPosition="bottom"
+                         selectionMode="single" selection="#{clienteBean.cliente}" rowKey="#{cliente.id}"
+                         rowsPerPageTemplate="5,10,{ShowAll|'Tudo'}">
+
+                <p:ajax event="rowSelect" update="frm:toolbar" />
+                <p:ajax event="rowUnselect" update="frm:toolbar" />
+
+                <p:column headerText="Nome" sortBy="#{cliente.nome}">
+                    <h:outputText value="#{cliente.nome}" />
+                </p:column>
+
+                <p:column headerText="Email" sortBy="#{cliente.email}">
+                    <h:outputText value="#{cliente.email}" />
+                </p:column>
+
+                <p:column headerText="Telefone" sortBy="#{cliente.telefone}">
+                    <h:outputText value="#{cliente.telefone}" />
+                </p:column>
+
+                <p:column headerText="CEP" sortBy="#{cliente.cep}">
+                    <h:outputText value="#{cliente.cep}" />
+                </p:column>
+
+                <p:column headerText="Endereço" sortBy="#{cliente.endereco}">
+                    <h:outputText value="#{cliente.endereco}" />
+                </p:column>
+
+                <p:column headerText="Bairro" sortBy="#{cliente.bairro}">
+                    <h:outputText value="#{cliente.bairro}" />
+                </p:column>
+
+                <p:column headerText="Cidade" sortBy="#{cliente.cidade}">
+                    <h:outputText value="#{cliente.cidade}" />
+                </p:column>
+
+                <p:column headerText="Estado" sortBy="#{cliente.estado}">
+                    <h:outputText value="#{cliente.estado}" />
+                </p:column>
+            </p:dataTable>
+
+            <p:dialog id="clienteDialog" header="Novo Cliente" widgetVar="clienteDialogWidgetVar" modal="true"
+                      resizable="false" closeOnEscape="true">
+                <p:messages id="clienteMessages" />
+
+                <p:defaultCommand target="salvarCommandButton" scope="clienteDialog" />
+
+                <h:panelGrid id="clientePanelGrid" columns="2" rendered="#{clienteBean.cliente ne null}">
+                    <p:outputLabel value="Nome: " for="nome" />
+                    <p:inputText id="nome" size="80" maxlength="120" value="#{clienteBean.cliente.nome}" />
+
+                    <p:outputLabel value="Email: " for="email" />
+                    <p:inputText id="email" size="80" maxlength="80" value="#{clienteBean.cliente.email}" />
+
+                    <p:outputLabel value="Telefone: " for="telefone" />
+                    <p:inputMask id="telefone" mask="(99) 99999-9999" size="20" maxlength="20"
+                                 value="#{clienteBean.cliente.telefone}" />
+
+                    <p:outputLabel value="CEP: " for="cep" />
+                    <p:inputMask id="cep" mask="99999-999" size="20" maxlength="20" value="#{clienteBean.cliente.cep}">
+                        <p:ajax event="blur" process="@this" update="endereco bairro cidade estado clienteMessages" listener="#{clienteBean.buscarCep}" />
+                    </p:inputMask>
+
+                    <p:outputLabel value="Endereço: " for="endereco" />
+                    <p:inputText id="endereco" size="80" maxlength="120" value="#{clienteBean.cliente.endereco}" />
+
+                    <p:outputLabel value="Bairro: " for="bairro" />
+                    <p:inputText id="bairro" size="80" maxlength="100" value="#{clienteBean.cliente.bairro}" />
+
+                    <p:outputLabel value="Cidade: " for="cidade" />
+                    <p:inputText id="cidade" size="80" maxlength="100" value="#{clienteBean.cliente.cidade}" />
+
+                    <p:outputLabel value="Estado: " for="estado" />
+                    <p:inputText id="estado" size="80" maxlength="100" value="#{clienteBean.cliente.estado}" />
+                    
+                    <p:spacer height="20px" />
+
+	                <p:commandButton id="salvarCommandButton" value="Salvar" icon="fas fa-save" class="ui-button-success" 
+	                				 actionListener="#{clienteBean.salvar}" update="clientePanelGrid clienteMessages" process="clienteDialog"
+	                                 oncomplete="if (!args.validationFailed) PF('clienteDialogWidgetVar').hide()" />
+                </h:panelGrid>
+            </p:dialog>
+
+            <p:dialog header="Ajuda" widgetVar="ajuda" minHeight="40" width="350" showEffect="fade" modal="true"
+				resizable="false" closeOnEscape="true">
+				<p class="m-0">Selecione uma linha da tabela para realizar as operações de edição ou exclusão.</p>
+			</p:dialog>
+            
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+				<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" />
+				<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+			</p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
