@@ -98,12 +98,23 @@ Para construir e executar o projeto, siga os passos abaixo:
 git clone https://github.com/andersonleite1/gerenciador-clientes && cd gerenciador-clientes
 ```
 
-2. Iniciar os containers:
+2. Construir o projeto:
 ```
-docker-compose up
+mvn clean install
 ```
 
-3. Assista o video para continuar a configuracao:
+3. Subir o banco de dados MySQL com Docker: Certifique-se de ter o Docker instalado e em execução. No diretório do projeto, execute:
+```
+docker-compose up -d
+```
+
+4. Executar a aplicação: Utilize seu servidor de aplicação preferido (ex: Tomcat, WildFly). Se estiver utilizando o Tomcat, copie o arquivo WAR gerado (target/gerenciador-clientes.war) para o diretório webapps do Tomcat e inicie o servidor.
+
+
+5. Acessar a aplicação: Acesse a aplicação no navegador utilizando a URL: http://localhost:8080/gerenciador-clientes
+
+
+6. (BONUS) Assista ao vídeo para realizar a configuração através da IDE Eclipse:
 
 - [Link]()
 
