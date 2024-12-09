@@ -90,6 +90,14 @@ A estrutura do projeto segue uma organização modular, com separação de respo
 ### Plugins
 - **Maven Compiler Plugin**: Para compilar o projeto utilizando Java 17.
 
+## Requisitos para Rodar a Aplicação
+Antes de rodar a aplicação, certifique-se de ter os seguintes requisitos instalados no seu ambiente:
+
+1. **Java Development Kit (JDK) 17**: A aplicação foi desenvolvida utilizando Java 17, portanto, é necessário ter o JDK 17 instalado.
+2. **Apache Maven 3.6.0 ou superior**: Utilizado para gerenciar as dependências e construir o projeto.
+3. **Docker**: Utilizado para subir o banco de dados MySQL através de um container.
+4. **Servidor de aplicação compatível com Java EE 8 ou superior**: Eu utilizei o Apache Tomcat 9, mas você pode utilizar outros, como WildFly, etc.
+
 ## Build e Execução
 Para construir e executar o projeto, siga os passos abaixo:
 
