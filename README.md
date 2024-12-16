@@ -122,10 +122,6 @@ docker-compose up -d
 5. Acessar a aplicação: Acesse a aplicação no navegador utilizando a URL: http://localhost:8080/gerenciador-clientes
 
 
-6. (BONUS) Assista ao vídeo para realizar a configuração através da IDE Eclipse:
-- [Instalação do Projeto na IDE Eclipse](https://youtu.be/IovqaTx3KFI)
-- [Apresentação do Projeto Gerenciador de Clientes](https://youtu.be/f9h__tknf3g)
-
 ## Considerações Finais
 Este projeto foi desenvolvido com o objetivo de demonstrar habilidades em desenvolvimento Java EE, utilização de Docker, e boas práticas em arquitetura MVC. É um exemplo de uma aplicação completa, abrangendo desde a camada de persistência até a interface do usuário.
 
